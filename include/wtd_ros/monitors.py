@@ -21,7 +21,7 @@ class Monitor_IsAlive():
             self.enabled = False
         else:
             if not ('/' + self.topic) in [item for i in rospy.get_published_topics() for item in i]:
-                rospy.logerr("Monitor: Unable to subscribe to topic %s", self.topic)
+                rospy.logwarn("Monitor: Unable to subscribe to topic %s", self.topic)
                 self.enabled = False
                 return
             else:
