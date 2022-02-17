@@ -22,6 +22,7 @@ class Watchdog:
         self.srv_StartWtd = rospy.Service('/' + self.name + '/start', Empty, self.Start)
         self.srv_StopWtd = rospy.Service('/' + self.name + '/stop', Empty, self.Stop)
 
+    # @param Monitor object to attatch to the watchdog. Monitors are appended to the list of monitors of the watchdog. The monitors are OR'd in order to trigger the actions.
     def AttachMonitor(self, monitorObj):
         self.monitors.append(monitorObj)
         for o in self.monitors:

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
+from include.wtd_ros.actions import Action_CallService
 import rospy
 from wtd_ros import *
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64, UInt8, Empty
 
-myWtd = Watchdog('myWtd', True, 10.0)
+wtd_arduino = Watchdog('arduino_wtd', True, 10.0)
+wtd_mag = Watchdog('magnetometer_wtd', True, 10.0)
 
 
 def watchdog_node():
@@ -13,10 +15,9 @@ def watchdog_node():
     rate = rospy.Rate(10) # 10hz
 
     # Arduino watchdog
-    myWtd.AttachMonitor(Monitor_IsAlive('m1_yellow/pos', Float64, 500))
-    # myWtd.AttachMonitor(Monitor_IsAlive('m2_orange/pos', Float64, 500))
-    # myWtd.AttachMonitor(Monitor_IsAlive('m3_blue/pos', Float64, 500))
+    myWtd.AttachMonitor(Monitor_IsAlive('m1_yellow/pos', Float64, 500)) # Only need to detect one motor to know if Arduino has died
     myWtd.AttachAction(Action_KillNode(['rosserial_node']))
+
     myWtd.Start()
 
     while not rospy.is_shutdown():
